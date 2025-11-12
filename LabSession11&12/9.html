@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>User Registration Form</title>
+<style>
+	body {
+		font-family: Arial, sans-serif;
+		background-color: #f5f5f5;
+		padding: 20px;
+	}
+	
+	.container {
+		max-width: 600px;
+		margin: 0 auto;
+		background-color: white;
+		padding: 30px;
+		border-radius: 8px;
+		box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	}
+	
+	h2 {
+		text-align: center;
+		color: #333;
+	}
+	
+	.form-group {
+		margin-bottom: 15px;
+		display: flex;
+		align-items: flex-start;
+	}
+	
+	label {
+		width: 150px;
+		font-weight: bold;
+		text-align: right;
+		margin-right: 10px;
+		color: #555;
+		padding-top: 5px;
+	}
+	
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	input[type="tel"],
+	textarea,
+	select {
+		flex: 1;
+		padding: 8px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 14px;
+	}
+	
+	#lstLanguage {
+		cursor: pointer;
+	}
+	
+	#lstLanguage:focus {
+		outline: none;
+		border-color: #4CAF50;
+		box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+	}
+	
+	textarea {
+		min-height: 100px;
+		resize: vertical;
+		font-family: Arial, sans-serif;
+	}
+	
+	.radio-group,
+	.checkbox-group {
+		flex: 1;
+	}
+	
+	.radio-group input[type="radio"],
+	.checkbox-group input[type="checkbox"] {
+		margin-right: 5px;
+	}
+	
+	.radio-group label,
+	.checkbox-group label {
+		display: inline;
+		width: auto;
+		margin-right: 15px;
+		font-weight: normal;
+		text-align: left;
+	}
+	
+	.button-group {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 20px;
+	}
+	
+	button {
+		padding: 8px 20px;
+		font-size: 14px;
+		border: 1px solid #999;
+		border-radius: 4px;
+		background-color: #e8e8e8;
+		cursor: pointer;
+	}
+	
+	button:hover {
+		background-color: #d8d8d8;
+	}
+	
+	.error {
+		color: red;
+		font-size: 12px;
+		margin-top: 5px;
+		display: none;
+	}
+</style>
+<script language="javascript">
+function formValid() {
+	var f = document.frmRegister;
+	var phone_pattern = /^(\(0\d{1,3}\) |\(0\d{3}\) |\(0\d{3}\))$/;
+	var email_pattern = /^[a-zA-Z0-9_\w.]+@\w+\.\w{2,3}$/;
+	
+	if(f.txtUsername.value=="") {
+		alert("Username can't be empty");
+		f.txtUsername.focus();
+		return false;
+	}
+	if(f.txtPassword1.value.length < 6) {
+		alert("Password length must be from 6 to 20 characters");
+		f.txtPassword1.focus();
+		return false;
+	}
+	if(f.txtPassword1.value != f.txtPassword2.value) {
+		alert("Password doesn't match");
+		f.txtPassword2.focus();
+		return false;
+	}
+	if(phone_pattern.test(f.txtPhone.value)==false) {
+		alert("Invalid phone number");
+		f.txtPhone.focus();
+		return false;
+	}
+	if(email_pattern.test(f.txtEmail.value)==false) {
+		alert("Invalid email address");
+		f.txtEmail.focus();
+		return false;
+	}
+	if(f.chkMusic.checked==false && f.chkReading.checked==false) {
+		alert("You must select at least one favourite");
+		f.chkMusic.focus();
+		return false;
+	}
+	if(f.filPicture.value=="") {
+		alert("You must select your picture");
+		f.filPicture.focus();
+		return false;
+	}
+	if(f.txtDescription.value=="") {
+		alert("You must enter description");
+		f.txtDescription.focus();
+		return false;
+	}
+	alert("All register information are correct.");
+	return true;
+}
+</script>
+</head>
+<body>
+<div class="container">
+	<h2>User Registration</h2>
+	<form id="registrationForm" name="frmRegister" method="get" onsubmit="return formValid();">
+		
+		<div class="form-group">
+			<label for="txtUsername">Username</label>
+			<div style="flex: 1;">
+				<input type="text" id="txtUsername" name="txtUsername" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="txtPassword1">Password</label>
+			<div style="flex: 1;">
+				<input type="password" id="txtPassword1" name="txtPassword1" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="txtPassword2">Confirm password</label>
+			<div style="flex: 1;">
+				<input type="password" id="txtPassword2" name="txtPassword2" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>Gender</label>
+			<div class="radio-group">
+				<input type="radio" id="rdMale" name="rdGender" value="Male" />
+				<label for="rdMale">Male</label>
+				<input type="radio" id="rdFemale" name="rdGender" value="Female" />
+				<label for="rdFemale">Female</label>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="txtPhone">Phone</label>
+			<div style="flex: 1;">
+				<input type="tel" id="txtPhone" name="txtPhone" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="txtEmail">Email</label>
+			<div style="flex: 1;">
+				<input type="email" id="txtEmail" name="txtEmail" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>Favourite</label>
+			<div class="checkbox-group">
+				<input type="checkbox" id="chkMusic" name="chkMusic" value="Music" />
+				<label for="chkMusic">Music</label>
+				<input type="checkbox" id="chkReading" name="chkReading" value="Reading" />
+				<label for="chkReading">Reading</label>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="filPicture">Picture</label>
+			<div style="flex: 1;">
+				<input type="file" id="filPicture" name="filPicture" accept="image/*" />
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="txtDescription">Description</label>
+			<div style="flex: 1;">
+				<textarea id="txtDescription" name="txtDescription"></textarea>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="cboEducation">Education level</label>
+			<div style="flex: 1;">
+				<select id="cboEducation" name="cboEducation">
+					<option value="">Select Education Level</option>
+					<option value="Aptech">Aptech</option>
+					<option value="Highschool">Highschool</option>
+					<option value="Bachelor">Bachelor</option>
+					<option value="Master">Master</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="lstLanguage">Language</label>
+			<div style="flex: 1;">
+				<select id="lstLanguage" name="lstLanguage">
+					<option value="Vietnamese">Vietnamese</option>
+					<option value="English">English</option>
+					<option value="French">French</option>
+					<option value="Japanese">Japanese</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="button-group">
+			<button type="submit">Register</button>
+			<button type="reset">Reset</button>
+		</div>
+		
+	</form>
+</div>
+</body>
+</html>
