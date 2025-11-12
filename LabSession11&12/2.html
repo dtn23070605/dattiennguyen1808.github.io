@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ex03</title>
+<script language="javascript">
+function checkNumber() {
+    var txta = document.getElementById("numA").value;
+
+    if (txta == null || txta.trim() == "" || isNaN(txta)) {
+        document.getElementById("result").innerHTML = 
+            "<font color='red'>You must enter a number</font>";
+    } else if (txta % 2 == 0) {
+        document.getElementById("result").innerHTML = 
+            "<font color='green'><b>" + txta + " is an even number</b></font>";
+    } else {
+        document.getElementById("result").innerHTML = 
+            "<font color='blue'><i>" + txta + " is an odd number</i></font>";
+    }
+}
+</script>
+</head>
+
+<body>
+    <h2>Check Even or Odd Number</h2>
+    <label>Enter any integer: </label>
+    <input type="text" id="numA">
+    <button onclick="checkNumber()">Check</button>
+
+    <p id="result"></p>
+</body>
+</html>

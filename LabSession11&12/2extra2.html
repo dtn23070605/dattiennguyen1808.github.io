@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Circle</title>
+<script language="javascript">
+function calcCircle() {
+    var radius = document.getElementById("radius").value;
+    const pi = 3.14;
+
+    if (radius == "" || isNaN(radius)) {
+        document.getElementById("resultCircle").innerHTML = 
+            "<font color='red'>Please enter a valid radius.</font>";
+    } else {
+        var perimeter = 2 * pi * parseFloat(radius);
+        var area = pi * Math.pow(parseFloat(radius), 2);
+        document.getElementById("resultCircle").innerHTML = 
+            "<font color='blue'><b>Perimeter:</b> " + perimeter.toFixed(2) + "<br>" +
+            "<b>Area:</b> " + area.toFixed(2) + "</font>";
+    }
+}
+</script>
+</head>
+
+<body>
+    <h2>Calculate Circle Perimeter and Area</h2>
+    <label>Radius: </label>
+    <input type="text" id="radius"><br><br>
+    <button onclick="calcCircle()">Calculate</button>
+    <p id="resultCircle"></p>
+</body>
+</html>
