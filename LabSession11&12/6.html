@@ -2,55 +2,319 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Mini calculator</title>
+<title>Advanced Mini Calculator</title>
+<style>
+	body {
+		font-family: Arial, sans-serif;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		min-height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0;
+	}
+	
+	.calculator {
+		background: white;
+		border-radius: 10px;
+		padding: 30px;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+		max-width: 500px;
+		width: 100%;
+	}
+	
+	h2 {
+		text-align: center;
+		color: #333;
+		margin-top: 0;
+	}
+	
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+	
+	tr {
+		margin-bottom: 15px;
+	}
+	
+	td {
+		padding: 10px;
+	}
+	
+	td[align="right"] {
+		font-weight: bold;
+		width: 100px;
+		color: #555;
+	}
+	
+	input[type="text"],
+	input[type="number"],
+	select {
+		width: 100%;
+		padding: 10px;
+		border: 2px solid #ddd;
+		border-radius: 5px;
+		font-size: 14px;
+		box-sizing: border-box;
+		transition: border-color 0.3s;
+	}
+	
+	input[type="text"]:focus,
+	input[type="number"]:focus,
+	select:focus {
+		outline: none;
+		border-color: #667eea;
+		box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+	}
+	
+	input[readonly] {
+		background-color: #f0f0f0;
+		cursor: not-allowed;
+	}
+	
+	.button-group {
+		display: flex;
+		gap: 10px;
+		justify-content: center;
+		margin-top: 20px;
+	}
+	
+	button {
+		padding: 10px 20px;
+		font-size: 16px;
+		font-weight: bold;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+	
+	.btn-calculate {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		flex: 1;
+	}
+	
+	.btn-calculate:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+	}
+	
+	.btn-clear {
+		background-color: #ff6b6b;
+		color: white;
+		flex: 1;
+	}
+	
+	.btn-clear:hover {
+		background-color: #ee5a52;
+		transform: translateY(-2px);
+	}
+	
+	.error {
+		color: #ff6b6b;
+		font-size: 12px;
+		margin-top: 5px;
+		display: none;
+	}
+	
+	.info {
+		background-color: #f0f7ff;
+		border-left: 4px solid #667eea;
+		padding: 10px;
+		margin-bottom: 20px;
+		border-radius: 3px;
+		font-size: 13px;
+		color: #333;
+	}
+</style>
 <script language="javascript">
 function calculate() {
 	var a = document.frmCal.txta;
 	var b = document.frmCal.txtb;
 	var o = document.frmCal.slto;
 	var r = document.frmCal.txtr;
-
+	var errorMsg = document.getElementById("errorMsg");
+	
 	var numberFormat = /^[+-]?\d+(\.\d+)?$/;
+	
+	// Clear previous error
+	errorMsg.style.display = "none";
+	errorMsg.innerHTML = "";
 
 	if (numberFormat.test(a.value) == false) {
-		alert("a must be a number!");
+		errorMsg.innerHTML = "a must be a number!";
+		errorMsg.style.display = "block";
 		a.focus();
-	} else if (numberFormat.test(b.value) == false) {
-		alert("b must be a number!");
+		return;
+	} 
+	
+	if (numberFormat.test(b.value) == false) {
+		errorMsg.innerHTML = "b must be a number!";
+		errorMsg.style.display = "block";
 		b.focus();
-	} else if ((o.value=="/" || o.value=="%") && parseInt(b.value)==0) {
-		alert("b can't be 0!");
-		r.value = "";
-		b.focus();
-	} else
-		r.value = eval(a.value + o.value + b.value);
+		return;
+	} 
+	
+	var numA = parseFloat(a.value);
+	var numB = parseFloat(b.value);
+	var result = 0;
+	
+	switch(o.value) {
+		case "+":
+			result = numA + numB;
+			break;
+		case "-":
+			result = numA - numB;
+			break;
+		case "*":
+			result = numA * numB;
+			break;
+		case "/":
+			if (numB == 0) {
+				errorMsg.innerHTML = "Cannot divide by zero!";
+				errorMsg.style.display = "block";
+				b.focus();
+				return;
+			}
+			result = numA / numB;
+			break;
+		case "%":
+			if (numB == 0) {
+				errorMsg.innerHTML = "Cannot use modulo with zero!";
+				errorMsg.style.display = "block";
+				b.focus();
+				return;
+			}
+			result = numA % numB;
+			break;
+		case "**":
+			result = Math.pow(numA, numB);
+			break;
+		case "sqrt":
+			if (numA < 0) {
+				errorMsg.innerHTML = "Cannot calculate square root of negative number!";
+				errorMsg.style.display = "block";
+				a.focus();
+				return;
+			}
+			result = Math.sqrt(numA);
+			break;
+		case "^3":
+			result = Math.pow(numA, 3);
+			break;
+		case "sin":
+			result = Math.sin(numA * Math.PI / 180); // Convert degrees to radians
+			break;
+		case "cos":
+			result = Math.cos(numA * Math.PI / 180);
+			break;
+		case "tan":
+			result = Math.tan(numA * Math.PI / 180);
+			break;
+		case "log":
+			if (numA <= 0) {
+				errorMsg.innerHTML = "Logarithm requires positive number!";
+				errorMsg.style.display = "block";
+				a.focus();
+				return;
+			}
+			result = Math.log10(numA);
+			break;
+		case "ln":
+			if (numA <= 0) {
+				errorMsg.innerHTML = "Natural log requires positive number!";
+				errorMsg.style.display = "block";
+				a.focus();
+				return;
+			}
+			result = Math.log(numA);
+			break;
+		case "abs":
+			result = Math.abs(numA);
+			break;
+	}
+	
+	r.value = result.toFixed(6).replace(/\.?0+$/, ""); // Remove trailing zeros
+}
+
+function clearCalculator() {
+	document.frmCal.txta.value = "";
+	document.frmCal.txtb.value = "";
+	document.frmCal.txtr.value = "";
+	document.frmCal.slto.value = "+";
+	document.getElementById("errorMsg").style.display = "none";
+	document.frmCal.txta.focus();
 }
 </script>
 </head>
 <body>
-<form name="frmCal">
-	<table border="0" align="center">
-		<tr><td colspan="2" align="center">
-			<h2>MINI CALCULATOR </h2></td></tr>
-		<tr><td align="right">a = </td>
-			<td><input name="txta" /></td></tr>
-		<tr><td align="right">b = </td>
-			<td><input name="txtb" /></td></tr>
-		<tr><td align="right">Operator: </td>
-			<td><select name="slto">
-				<option value="+">+</option>
-				<option value="-">-</option>
-				<option value="*">*</option>
-				<option value="/">></option>
-				<option value="%">%</option>
-			</select>
-		</td></tr>
-		<tr><td align="right">Result: </td>
-			<td><input name="txtr" readonly /></td></tr>
-		<tr><td colspan="2" align="center">
-			<input type="button" value="Calculate"
-				onClick="calculate()">
-		</td></tr>
-	</table>
-</form></body>
+<div class="calculator">
+	<h2>Advanced Calculator</h2>
+	<div class="info">
+		<strong>Tip:</strong> Some operations use only the first number (sqrt, sin, cos, tan, log, ln, abs)
+	</div>
+	<form name="frmCal">
+		<table border="0">
+			<tr>
+				<td align="right">a = </td>
+				<td><input type="number" name="txta" step="any" /></td>
+			</tr>
+			<tr>
+				<td align="right">b = </td>
+				<td><input type="number" name="txtb" step="any" /></td>
+			</tr>
+			<tr>
+				<td align="right">Operator: </td>
+				<td>
+					<select name="slto">
+						<optgroup label="Basic Operations">
+							<option value="+">+ (Addition)</option>
+							<option value="-">- (Subtraction)</option>
+							<option value="*">* (Multiplication)</option>
+							<option value="/">÷ (Division)</option>
+							<option value="%">% (Modulo)</option>
+						</optgroup>
+						<optgroup label="Advanced Operations">
+							<option value="**">^ (Power)</option>
+							<option value="sqrt">√ (Square Root)</option>
+							<option value="^3">∛ (Cube)</option>
+						</optgroup>
+						<optgroup label="Trigonometric">
+							<option value="sin">sin (Sine)</option>
+							<option value="cos">cos (Cosine)</option>
+							<option value="tan">tan (Tangent)</option>
+						</optgroup>
+						<optgroup label="Logarithmic">
+							<option value="log">log (Base 10)</option>
+							<option value="ln">ln (Natural Log)</option>
+						</optgroup>
+						<optgroup label="Other">
+							<option value="abs">|x| (Absolute Value)</option>
+						</optgroup>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">Result: </td>
+				<td><input type="text" name="txtr" readonly /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div id="errorMsg" class="error"></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div class="button-group">
+						<button type="button" class="btn-calculate" onclick="calculate()">Calculate</button>
+						<button type="button" class="btn-clear" onclick="clearCalculator()">Clear</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>
 </html>
