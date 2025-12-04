@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+            display: none; /* Mặc định ẩn menu */
+        }
+        nav a {
+            color: white;
+            text-decoration: underline;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        nav a:hover {
+            color: green; 
+        }
+    </style>
+</head>
+<body>
+    <nav id="mainNav">
+        <a href="#">Trang chủ</a> -
+        <a href="#">Sách &copy;</a> -
+        <a href="#">Tác giả &trade;</a> -
+        <a href="#">Liên hệ</a>
+    </nav>
+
+    <button onclick="toggle()">Ẩn/hiện Menu</button>
+    <script>
+        function toggle() {
+            const nav = document.getElementById('mainNav');
+            nav.style.display = (nav.style.display === 'none') ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
