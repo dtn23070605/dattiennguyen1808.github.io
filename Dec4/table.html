@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <table id="table">
+        <tr>
+            <th>Tên linh kiện</th>
+            <td>Giá (VND)</th>
+            <td>Đánh giá &star;</th>
+        </tr>
+        <tr>
+            <td>CPU Intel&trade; Core i5</td>
+            <td>5000000</td>
+            <td>4.5/5</td>
+        </tr>
+        <tr>
+            <td>RAM DDR4 8GB</td>
+            <td>800000</td>
+            <td>4.0/5</td>
+        </tr>
+        <tr>
+            <td>Ổ cứng SSD 256GB</td>
+            <td>1200000</td>
+            <td>4.8/5</td>
+        </tr>
+    </table>
+    <button onclick="changeColor()">Change color</button>
+    <button onclick="sortTable()">Sort by Price</button>
+
+    <script>
+        let isRed = true;
+        function changeColor() {
+            const table = document.getElementById('table');
+            table.style.color = isRed ? 'green' : 'red';
+            isRed = !isRed;
+        }
+
+        function sortTable() {
+            const table = document.getElementById('table');
+            const rows = Array.from(table.rows).slice(1);
+            rows.sort((a, b) => {
+                const priceA = parseInt(a.cells[1].innerText);
+                const priceB = parseInt(b.cells[1].innerText);
+                return priceA - priceB;
+            });
+            rows.forEach(row => table.appendChild(row));
+        }
+    </script>
+</body>
+</html>
