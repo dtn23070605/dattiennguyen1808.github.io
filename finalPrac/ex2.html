@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Parts Price List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Computer Parts Price List</h1>
+
+    <table id="priceTable">
+        <thead>
+            <tr>
+                <th>Component</th>
+                <th>Model</th>
+                <th>Brand</th>
+                <th>Price (USD)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>• Graphics Card</td>
+                <td>RTX 4070 Super&trade;</td>
+                <td>NVIDIA&copy;</td>
+                <td>$599.99</td>
+            </tr>
+            <tr>
+                <td>• Processor</td>
+                <td>Ryzen 9 7950X&trade;</td>
+                <td>AMD&copy;</td>
+                <td>$449.99</td>
+            </tr>
+            <tr>
+                <td>• Memory</td>
+                <td>DDR5 64GB Kit&trade;</td>
+                <td>Corsair&copy;</td>
+                <td>$299.99</td>
+            </tr>
+            <tr>
+                <td>• Storage</td>
+                <td>2TB NVMe SSD&trade;</td>
+                <td>Samsung&copy;</td>
+                <td>$149.99</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <button onclick="changeColor()">Change Color to Red</button>
+        <button onclick="resetColor()">Reset Color</button>
+    </div>
+
+    <script>
+        function changeColor() {
+            const table = document.getElementById('priceTable');
+            const allCells = table.querySelectorAll('th, td');
+            allCells.forEach(cell => {
+                cell.style.color = 'red';
+            });
+        }
+
+        function resetColor() {
+            const table = document.getElementById('priceTable');
+            const allCells = table.querySelectorAll('th, td');
+            allCells.forEach(cell => {
+                cell.style.color = 'black';
+            });
+        }
+    </script>
+</body>
+</html>
