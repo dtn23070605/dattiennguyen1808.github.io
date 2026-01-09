@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Showcase</title>
+    <style>
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; 
+        }
+        
+        .card { 
+            border: 1px solid #ddd; padding: 10px; 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1); 
+            transition: 0.3s;
+        }
+
+        .card:hover { transform: scale(1.02); box-shadow: 4px 4px 10px rgba(0,0,0,0.2); 
+        }
+        
+        .hidden { display: none; 
+        }
+    </style>
+</head>
+<body>
+    <button onclick="togglePrice()">Toggle Price</button>
+    <br><br>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Laptop &reg;</h3>
+            <p>High performance machine.</p>
+            <p class="price-tag">Price: &euro;999</p> 
+            <button>Buy &rarr;</button> </div>
+        <div class="card">
+            <h3>Phone &reg;</h3>
+            <p>Smart and fast.</p>
+            <p class="price-tag">Price: &euro;599</p>
+            <button>Buy &rarr;</button>
+        </div>
+        <div class="card">
+            <h3>Tablet &reg;</h3>
+            <p>Portable display.</p>
+            <p class="price-tag">Price: &euro;399</p>
+            <button>Buy &rarr;</button>
+        </div>
+        <div class="card">
+            <h3>Watch &reg;</h3>
+            <p>Wearable tech.</p>
+            <p class="price-tag">Price: &euro;199</p>
+            <button>Buy &rarr;</button>
+        </div>
+    </div>
+
+    <script>
+        function togglePrice() {
+            let prices = document.getElementsByClassName("price-tag");
+            
+            for (let i = 0; i < prices.length; i++) {
+                if (prices[i].style.display === "none") {
+                    prices[i].style.display = "block";
+                } else {
+                    prices[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

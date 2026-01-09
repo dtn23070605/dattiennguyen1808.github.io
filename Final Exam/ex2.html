@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Content</title>
+    <style>
+        .tab-btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            font-size: 16px;
+        }
+
+        .active {
+            background-color: white;
+            border-bottom: 2px solid blue;
+            font-weight: bold;
+        }
+
+        .content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .arrow {
+            display: none;
+            margin-left: 5px;
+        }
+
+        .active .arrow {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('features', this)">
+            Features &reg; <span class="arrow">&rarr;</span>
+        </button>
+        
+        <button class="tab-btn" onclick="switchTab('pricing', this)">
+            Pricing &euro; <span class="arrow">&rarr;</span>
+        </button>
+        
+        <button class="tab-btn" onclick="switchTab('reviews', this)">
+            Reviews <span class="arrow">&rarr;</span>
+        </button>
+        
+        <button class="tab-btn" onclick="switchTab('support', this)">
+            Support <span class="arrow">&rarr;</span>
+        </button>
+    </div>
+
+    <div id="features" class="content show">
+        <h3>Features Section</h3>
+        <p>Here are our amazing features.</p>
+    </div>
+
+    <div id="pricing" class="content">
+        <h3>Pricing Section</h3>
+        <p>Prices start at &euro;10.</p>
+    </div>
+
+    <div id="reviews" class="content">
+        <h3>Reviews Section</h3>
+        <p>★★★★★ - Great product!</p>
+    </div>
+
+    <div id="support" class="content">
+        <h3>Support Section</h3>
+        <p>Contact us at help@example.com.</p>
+    </div>
+
+    <script>
+        function switchTab(tabId, btnElement) {
+            //Get all content divs and hide them
+            let allContent = document.getElementsByClassName("content");
+            for (let i = 0; i < allContent.length; i++) {
+                allContent[i].classList.remove("show");
+            }
+
+            //Get all buttons and remove 'active' class
+            let allBtns = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < allBtns.length; i++) {
+                allBtns[i].classList.remove("active");
+            }
+
+            //Show the clicked tab content
+            document.getElementById(tabId).classList.add("show");
+
+            //Set the clicked button to active
+            btnElement.classList.add("active");
+        }
+    </script>
+
+</body>
+</html>
