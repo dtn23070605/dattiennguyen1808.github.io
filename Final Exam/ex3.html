@@ -56,17 +56,17 @@
             let file = document.getElementById("profilePic").value;
             let matchError = document.getElementById("matchError");
 
-            // Reset error message
+            //Reset error message
             matchError.style.display = "none";
 
-            // 1. Check if passwords match
+            //Check if passwords match
             if (pass !== confirmPass) {
                 matchError.style.display = "block"; 
                 alert("Passwords do not match!");
                 return false;
             }
 
-            // 2. Existing Validation Rules
+            //Existing Validation Rules
             if (user.length < 5 || user.length > 15) {
                 alert("Username must be 5-15 characters");
                 return false;
