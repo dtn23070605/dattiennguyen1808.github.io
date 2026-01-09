@@ -1,150 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 300px;
-            display: flex;           
-            flex-direction: column;  
-            gap: 15px;               
-        }
-
-        h2 { text-align: center; margin: 0; }
-
-        input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        button {
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        button:hover { background-color: #218838; }
-
-        #strength-text {
-            font-size: 0.9em;
-            font-weight: bold;
-            text-align: right;
-            margin-top: -10px;
-        }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+        form { display: flex; flex-direction: column; gap: 10px; width: 300px; padding: 20px; border: 1px solid #ccc; }
         .weak { color: red; }
         .medium { color: orange; }
         .strong { color: green; }
-
-        .error { color: red; font-size: 0.8em; display: none; }
+        .error { color: red; font-size: 0.9em; display: none; }
     </style>
 </head>
 <body>
-
-    <form id="regForm">
-        <h2>Register</h2>
-
-        <label for="username">Username</label>
-        <input type="text" id="username" placeholder="5-15 characters">
-        <span id="userError" class="error">Username must be 5-15 characters.</span>
-
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="Letters & numbers">
+    <form onsubmit="return validateForm()">
+        <h3>Register</h3>
         
-        <div id="strength-text"></div>
+        <label>Username (5-15 chars):</label>
+        <input type="text" id="username" required>
+        
+        <label>Password (Letters + Numbers):</label>
+        <input type="password" id="password" onkeyup="checkStrength()">
+        <span id="strength"></span> 
 
-        <label for="profilePic">Profile Picture</label>
-        <input type="file" id="profilePic" accept=".jpg, .png">
-        <span id="fileError" class="error">Only JPG or PNG allowed.</span>
+        <label>Confirm Password:</label>
+        <input type="password" id="confirmPass">
+        <span id="matchError" class="error">Passwords do not match!</span>
+
+        <label>Profile Picture (JPG/PNG):</label>
+        <input type="file" id="profilePic">
 
         <button type="submit">Register</button>
     </form>
 
     <script>
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const fileInput = document.getElementById('profilePic');
-        const form = document.getElementById('regForm');
-        const strengthText = document.getElementById('strength-text');
-
-        passwordInput.addEventListener('input', function() {
-            const val = passwordInput.value;
-            let strength = "";
-            let colorClass = "";
-
-            if (val.length === 0) {
-                strength = "";
-            } else if (val.length < 6 || !/[0-9]/.test(val) || !/[a-zA-Z]/.test(val)) {
-                strength = "Weak";
-                colorClass = "weak";
-            } else if (val.length >= 6 && val.length < 10) {
-                strength = "Medium";
-                colorClass = "medium";
-            } else {
-                strength = "Strong";
-                colorClass = "strong";
-            }
-
-            strengthText.textContent = strength;
-            strengthText.className = colorClass;
-        });
-
-        // Form Submission Validation
-        form.addEventListener('submit', function(e) {
-            let isValid = true;
+        function checkStrength() {
+            let pass = document.getElementById("password").value;
+            let strengthText = document.getElementById("strength");
             
-            //Username Validation
-            if (usernameInput.value.length < 5 || usernameInput.value.length > 15) {
-                document.getElementById('userError').style.display = 'block';
-                isValid = false;
+            if (pass.length < 5) {
+                strengthText.innerText = "Weak"; strengthText.className = "weak";
+            } else if (pass.match(/[a-z]/) && pass.match(/[0-9]/) && pass.length >= 8) {
+                strengthText.innerText = "Strong"; strengthText.className = "strong";
             } else {
-                document.getElementById('userError').style.display = 'none';
+                strengthText.innerText = "Medium"; strengthText.className = "medium";
             }
-    
-            const hasLetter = /[a-zA-Z]/.test(passwordInput.value);
-            const hasNumber = /[0-9]/.test(passwordInput.value);
-            
-            if (!hasLetter || !hasNumber) {
-                alert("Password must contain both letters and numbers!");
-                isValid = false;
-            }
+        }
 
-            //File Validation
-            const file = fileInput.files[0];
-            if (file) {
-                const fileName = file.name.toLowerCase();
-                if (!fileName.endsWith('.jpg') && !fileName.endsWith('.png')) {
-                    document.getElementById('fileError').style.display = 'block';
-                    isValid = false;
-                } else {
-                    document.getElementById('fileError').style.display = 'none';
-                }
-            }
+        function validateForm() {
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+            let confirmPass = document.getElementById("confirmPass").value; // Get confirm value
+            let file = document.getElementById("profilePic").value;
+            let matchError = document.getElementById("matchError");
 
-            if (!isValid) {
-                e.preventDefault();
-            } else {
-                alert("Registration Successful!");
-            }
-        });
-    </script>
-</body>
-</html>
+            // Reset error message
+            matchError.style.display = "none";
+
+            // 1. Check if passwords match
+            if (pass !== confirmPass) {
+                matchError.style.display = "block"; // Show error text
+                alert("Passwords do not match!");
+                return false;
