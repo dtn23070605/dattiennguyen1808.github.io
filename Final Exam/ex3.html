@@ -60,3 +60,25 @@
                 matchError.style.display = "block"; // Show error text
                 alert("Passwords do not match!");
                 return false;
+            }
+
+            // 2. Existing Validation Rules
+            if (user.length < 5 || user.length > 15) {
+                alert("Username must be 5-15 characters");
+                return false;
+            }
+            if (!pass.match(/[a-zA-Z]/) || !pass.match(/[0-9]/)) {
+                alert("Password must contain numbers and letters");
+                return false;
+            }
+            if (!file.endsWith('.jpg') && !file.endsWith('.png')) {
+                alert("Image must be JPG or PNG");
+                return false;
+            }
+            
+            alert("Success!");
+            return false; 
+        }
+    </script>
+</body>
+</html>
