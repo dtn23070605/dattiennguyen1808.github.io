@@ -64,12 +64,11 @@
                 return false;
             }
 
-            //Existing Validation Rules
             if (user.length < 5 || user.length > 15) {
                 alert("Username must be 5-15 characters");
                 return false;
             }
-            if (!pass.match(/[a-zA-Z]/) || !pass.match(/[0-9]/)) {
+            if (!pass.match(/[a-zA-Z]/) || !pass.match(/[0-3]/)) {
                 alert("Password must contain numbers and letters");
                 return false;
             }
